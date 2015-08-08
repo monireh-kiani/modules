@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: imantest\n"
 "POT-Creation-Date: 2015-07-22 15:34+0430\n"
-"PO-Revision-Date: 2015-07-23 23:29+0430\n"
+"PO-Revision-Date: 2015-08-06 14:32+0430\n"
 "Last-Translator: \n"
 "Language-Team: wp-parsi\n"
 "Language: fa_IR\n"
@@ -211,7 +211,7 @@ msgstr ""
 
 #: functions.php:546
 msgid "Your email was not correct"
-msgstr "ایمیل وارد شده صحیح نیست."
+msgstr "پیام با موفقیت ثبت گردید."
 
 #: functions.php:547 shekaiat.php:291
 msgid "You must fill the form completely"

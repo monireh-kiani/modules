@@ -546,30 +546,30 @@ add_action( 'customize_preview_init', 'twentythirteen_customize_preview_js' );
 //******************************************
 // Add Custom JS & CSS
 //******************************************
-
 function add_form_critism_css() {
-	if ( is_page_template( 'shekaiat.php' ) ){
+	if( 'shekaiat.php' ){
 		wp_register_style( 'form_complaint_css', get_template_directory_uri() . '/css/form_style.css', false, '1.0' );
 		wp_enqueue_style( 'form_complaint_css' );
-	}
+		wp_enqueue_script( 'form_compliant_script', get_template_directory_uri() . '/js/ajax.js', array( 'jquery' ) );	
+		wp_localize_script( 'form_compliant_script', 'ajax_object',  array( 'ajax_url' => admin_url( 'admin-ajax.php' ),'str' =>  __( 'Your email was not correct', 'twentythirteen') ) );
+	}	
 }
 add_action( 'wp_enqueue_scripts', 'add_form_critism_css' );
-
 //******************************************
 // insert to criticism-table
 //******************************************
-function form_response(){
-	global $wpdb;
-	if( !empty( $_POST['first_name'] )  && !empty( $_POST['subject'] ) && !empty( $_POST[ 'email' ] ) && !empty( $_POST[ 'criticism_form_message' ] )){
+function form_response_callback(){
+	global $wpdb;	
+	if( !empty( $_POST['name'] ) && !empty( $_POST['subject'] ) && !empty( $_POST['email'] ) && !empty( $_POST['message'] ) ){
 		$criticism_table = $wpdb->prefix . 'criticism';
-		$name = sanitize_text_field( $_POST[ 'first_name' ] );
-		$email = sanitize_text_field( $_POST[ 'email' ] );
-		$subject = sanitize_text_field( $_POST[ 'subject' ] );
-		$message = sanitize_text_field( $_POST[ 'criticism_form_message' ] );
+		$name = sanitize_text_field( $_POST['name'] );
+		$email = sanitize_email( $_POST[ 'email' ] );
+		$subject = sanitize_text_field( $_POST['subject'] );
+		$message = sanitize_text_field( $_POST['message'] );
 		$headers[] = 'From: \$name\<$email>\n';
 		$headers[] = "Return-Path: <" .mysql_real_escape_string( trim( $email ) ).">";
 		$headers[] =  "Reply-To: <" . mysql_real_escape_string( trim( $email ) ) . ">";
-		$admin_email = get_option( 'admin_email' ); 			
+		$admin_email = get_option( 'admin_email' );
 		wp_mail( $admin_email , $subject, $message, $headers ); 
 		$data = array(
 			'criticism_id' => "",
@@ -579,12 +579,15 @@ function form_response(){
 			'criticism_message' => $message
 		);
 		$format= array('%d','%s','%s','%s','%s');
-		$wpdb->insert( $criticism_table , $data , $format );	
+		$wpdb->insert( $criticism_table , $data , $format );			
 	}
 	die();
 }
-add_action( 'wp_ajax_form_response', 'form_response' );
-add_action( 'wp_ajax_nopriv_form_response', 'form_response' );?>
+add_action( 'wp_ajax_form_response', 'form_response_callback' );
+add_action( 'wp_ajax_nopriv_form_response', 'form_response_callback' );
+?>
 
 
-	
+
+
+

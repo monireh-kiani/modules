@@ -1,4 +1,4 @@
-jQuery(document).ready(function( ){
+jQuery(document).ready(function($){
 	jQuery('.submit_form').click(function(){
 		var count = 0;
 		var name = jQuery( "input#first_name" ).val();
@@ -6,7 +6,8 @@ jQuery(document).ready(function( ){
 		var subject = jQuery( "input#subject" ).val();
 		var message = jQuery( "textarea#criticism_form_messages").val();	 		
 		var regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-		var validate_email = regex.test( email );	
+		var validate_email = regex.test( email );
+	
 		if( validate_email == false){ 
 			count++;
 			jQuery( "input#email" ).css( {"border": "2px solid red"} );
@@ -36,22 +37,20 @@ jQuery(document).ready(function( ){
 			jQuery( "input#subject" ).css( {"border": "solid 1px #09C"} );  
 		}
 		if( count == 0 ){
+			 document.getElementById("form_outer_div").innerHTML = ajax_object.str;
 			var data = {
 				action: 'form_response',
-				first_name: name,
+				name: name,
 				email: email,
 				subject: subject,
-				criticism_form_message: message 
+				message: message 
 			}
-		
-			jQuery.post( admin_url( 'admin-ajax.php' ), data, function( response ){
+			jQuery.post( ajax_object.ajax_url, data, function( response){
 				if( response ){
-					( 'Got this from the server: ' + response );
+			
 				}
-				else{
-					alert( 'error' );
-				}
-			});	
-		}
+			});
+		}	
   });
 });
+

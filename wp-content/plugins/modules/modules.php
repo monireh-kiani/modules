@@ -1,7 +1,7 @@
 <?php
 /*
-  Plugin Name: Complaints-suggestions
-  Description: Complaints-suggestions
+  Plugin Name: Modules
+  Description: Modules
  */
  
  
